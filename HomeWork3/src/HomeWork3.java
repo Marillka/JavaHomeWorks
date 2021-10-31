@@ -3,20 +3,22 @@ import java.util.Arrays;
 
 public class HomeWork3 {
     public static void main(String[] args) {
-//        zeroToOne();// 1
+        zeroToOne();// 1
+        System.out.println();
 
-//        fromOneToHundred(); // 2
+        fromOneToHundred(); // 2
+        System.out.println();
 
-//        lessThenSix(); // 3
+        lessThenSix(); // 3
+        System.out.println();
 
-//        drawDiagonals();// 4
+        drawDiagonals();// 4
+        System.out.println();
 
-//        createArray(15, 9); // 5
+        createArray(15, 9); // 5
+        System.out.println();
 
-//        minAndMax();// 6
-
-
-
+        minAndMax();// 6
     }
 
 
