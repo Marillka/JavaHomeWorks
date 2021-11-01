@@ -19,9 +19,61 @@ public class HomeWork3 {
         System.out.println();
 
         minAndMax();// 6
+        System.out.println();
+
+        int[] arr = {3, 2, 1};
+        System.out.println(checkBalance(arr));
+
+
     }
 
 
+    public static void shiftOptimal(int[] arr, int n) {
+        if (arr == null || arr.length < 2) return;
+        int shift = (arr.length + n % arr.length) % arr.length;
+        int count = 0;
+        for (int i = 0; count < arr.length; i++) {
+            int currentIndex = i;
+            int prevElement = arr[i];
+            do {
+                int nextElement = (currentIndex + shift) % arr.length;
+                int temp = arr[nextElement];
+                arr[nextElement] = prevElement;
+                prevElement = temp;
+                currentIndex = nextElement;
+                count++;
+            } while (i != currentIndex);
+        }
+    }
+
+    static void shiftLong(int[] arr, int n) {
+        int shift = (arr.length + n % arr.length) % arr.length;
+        for (int i = 0; i < shift; i++) {
+            int temp = arr[arr.length - 1];
+            for (int j = arr.length - 1; j > 0; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[0] = temp;
+        }
+    }
+
+    static boolean checkBalance(int[] arr) {
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+
+        if (sum % 2 != 0) return false;
+
+        int half = sum / 2;
+        int left = 0;
+
+        for (int i : arr) {
+            left += i;
+            if (left == half) return true;
+        }
+        return false;
+    }
 
     private static void minAndMax() {
         int[] arr = {45, -23, 43, 68, -530, 5343, 34, 3455, 1345, 985};
