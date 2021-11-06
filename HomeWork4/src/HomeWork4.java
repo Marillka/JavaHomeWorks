@@ -1,23 +1,23 @@
 import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
+public class HomeWork4 {// Крестики нолики 5x5 4 подряд
 
-public class HomeWork4 {
+    private static final char DOT_X = 'X';// символ крестик
+    private static final char DOT_0 = '0';// символ нолик
+    private static final char DOT_EMPTY = '.';// символ пустой ячейки
+    private static char[][] field;// игровое поле
+    private static char dotHuman;// символ игрока
+    private static char dotAi;// символ компа
+    private static int fieldSizeX;// размер поля
+    private static int fieldSizeY;// размер поля
+    private static final Scanner scanner = new Scanner(System.in);// сканер
+    private static final Random random = new Random();// рандом
+    private static int scoreHuman;// очки кожанного
+    private static int scoreAI;// очки компа
+    private static int roundCounter;// счетчик раундов
+    private static int symbolsForVictory = 4;// подряд символов для победы
 
-    private static final char DOT_X = 'X';
-    private static final char DOT_0 = '0';
-    private static final char DOT_EMPTY = '.';
-    private static char[][] field;
-    private static char dotHuman;
-    private static char dotAi;
-    private static int fieldSizeX;
-    private static int fieldSizeY;
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final Random random = new Random();
-    private static int scoreHuman;
-    private static int scoreAI;
-    private static int roundCounter;
-//    private static int winLength;
 
     public static void main(String[] args) {
         play();
@@ -51,7 +51,7 @@ public class HomeWork4 {
 
     private static void playRound() {
         System.out.printf("ROUND %d START\n", ++roundCounter);
-        initField(3, 3);
+        initField(5, 5);
         printField();
 
         if (dotHuman == DOT_X) {
@@ -125,75 +125,123 @@ public class HomeWork4 {
     }
 
     private static boolean checkWin(char dot) {
-        // hor (горизонтали)
-        if (field[0][0] == dot && field[0][1] == dot && field[0][2] == dot) return true;
-        if (field[1][0] == dot && field[1][1] == dot && field[1][2] == dot) return true;
-        if (field[2][0] == dot && field[2][1] == dot && field[2][2] == dot) return true;
+        /* для поля 5x5 с 4 символами подряд будет:
+        5 горизонтальных и 5 вертикальных линий,
+        2 основные диагонали длинной по 5,
+        4 диагонали длинной по 4
+        */
 
-        // ver (вертикали)
-        if (field[0][0] == dot && field[1][0] == dot && field[2][0] == dot) return true;
-        if (field[0][1] == dot && field[1][1] == dot && field[2][1] == dot) return true;
-        if (field[0][2] == dot && field[1][2] == dot && field[2][2] == dot) return true;
 
-        // diag (диагонали)
-        if (field[0][0] == dot && field[1][1] == dot && field[2][2] == dot) return true;
-        if (field[0][2] == dot && field[1][1] == dot && field[2][0] == dot) return true;
 
-        return false;
-    }
-
-    private static boolean checkDraw() {
-        for (int y = 0; y < fieldSizeY; y++) {
-            for (int x = 0; x < fieldSizeX; x++) {
-                if (isCellEmpty(y, x)) return false;
-            }
-        }
-        System.out.println("It's DRAW!!!");
-        return true;
-    }
-
-    private static boolean isCellEmpty(int y, int x) {
-        return field[y][x] == DOT_EMPTY;
-    }
-
-    private static boolean isCellValid(int y, int x) {
-        return (x >= 0) && (y >= 0) && (x < fieldSizeX) && (y < fieldSizeY);
-    }
-
-    private static void initField(int sizeX, int sizeY) {
-        fieldSizeX = sizeX;
-        fieldSizeY = sizeY;
-
-        field = new char[fieldSizeY][fieldSizeX];
-        for (int y = 0; y < fieldSizeY; y++) {
-            for (int x = 0; x < fieldSizeX; x++) {
-                field[y][x] = DOT_EMPTY;
-            }
-        }
-    }
-
-    private static void printField() { // печать поля
-//        for (int y = 0; y < fieldSizeY; y++) {
-//            for (int x = 0; x < fieldSizeX; x++) {
-//                System.out.print(field[y][x] + " ");
-//            }
-//            System.out.println();
-//        }
-        System.out.print("*");
-        for (int i = 0; i < fieldSizeX * 2 + 1; i++) {
-            System.out.print(i % 2 == 0 ? "-" : i / 2 + 1);
-        }
-        System.out.println();
-
-        for (int i = 0; i < fieldSizeY; i++) {
-            System.out.print(i + 1 + "|");
+        for (int i = 0,a = 0, b = 0; i < fieldSizeY; i++) {// горизонтали
             for (int j = 0; j < fieldSizeX; j++) {
-                System.out.print(field[i][j] + "|");
+                if (field[i][j] == DOT_X) a++;
+                if (field[i][j] == DOT_0) b++;
+                if (a == symbolsForVictory || b == symbolsForVictory) return true;
+            }
+        }
+
+        for (int i = 0,a = 0, b = 0; i < fieldSizeY; i++) {// вертикали
+            for (int j = 0; j < fieldSizeX; j++) {
+                if (field[j][i] == DOT_X) a++;
+                if (field[j][i] == DOT_0) b++;
+                if (a == symbolsForVictory || b == symbolsForVictory) return true;
+            }
+        }
+
+
+        for (int i = 0,a = 0, b = 0; i < fieldSizeY; i++) {// первая основная диагональ
+            if (field[i][i] == DOT_X) a++;
+            if (field[i][i] == DOT_0) b++;
+            if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+        }
+
+        for (int i = 0, j = 4, a = 0, b = 0; i < fieldSizeY && j >= 0; i++, j--) {// вторая основная диагональ
+            if (field[i][j] == DOT_X) a++;
+            if (field[i][j] == DOT_0) b++;
+            if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+        }
+
+        for (int i = 0, j = 1, a = 0, b = 0; i < 4 && j < 5 ; i++, j++) {// второстепенная диагональ
+            if (field[i][j] == DOT_X) a++;
+            if (field[i][j] == DOT_0) b++;
+            if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+        }
+
+        for (int i = 1, j = 0, a = 0, b = 0; i < 5 && j < 4 ; i++, j++) {// второстепенная диагональ
+            if (field[i][j] == DOT_X) a++;
+            if (field[i][j] == DOT_0) b++;
+            if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+        }
+
+        for (int i = 0, j = 3,a = 0, b = 0; i < 4 && j >= 0  ; i++, j--) {// второстепенная диагональ
+            if (field[i][j] == DOT_X) a++;
+            if (field[i][j] == DOT_0) b++;
+            if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+        }
+
+        for (int i = 1, j = 4, a = 0, b = 0; i < 5 && j > 0  ; i++, j--) {// второстепенная диагональ
+            if (field[i][j] == DOT_X) a++;
+            if (field[i][j] == DOT_0) b++;
+            if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+        }
+        return false;
+
+
+    }
+
+        private static boolean checkDraw () {
+            for (int y = 0; y < fieldSizeY; y++) {
+                for (int x = 0; x < fieldSizeX; x++) {
+                    if (isCellEmpty(y, x)) return false;
+                }
+            }
+            System.out.println("It's DRAW!!!");
+            return true;
+        }
+
+        private static boolean isCellEmpty ( int y, int x){
+            return field[y][x] == DOT_EMPTY;
+        }
+
+        private static boolean isCellValid ( int y, int x){
+            return (x >= 0) && (y >= 0) && (x < fieldSizeX) && (y < fieldSizeY);
+        }
+
+        private static void initField ( int sizeX, int sizeY){
+            fieldSizeX = sizeX;
+            fieldSizeY = sizeY;
+
+            field = new char[fieldSizeY][fieldSizeX];
+            for (int y = 0; y < fieldSizeY; y++) {
+                for (int x = 0; x < fieldSizeX; x++) {
+                    field[y][x] = DOT_EMPTY;
+                }
+            }
+        }
+
+        private static void printField () {
+            System.out.print("*");
+            for (int i = 0; i < fieldSizeX * 2 + 1; i++) {
+                System.out.print(i % 2 == 0 ? "-" : i / 2 + 1);
             }
             System.out.println();
+
+            for (int i = 0; i < fieldSizeY; i++) {
+                System.out.print(i + 1 + "|");
+                for (int j = 0; j < fieldSizeX; j++) {
+                    System.out.print(field[i][j] + "|");
+                }
+                System.out.println();
+            }
+
+            System.out.println("----------------");
         }
 
-        System.out.println("----------------");
     }
-
-}
