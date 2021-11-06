@@ -63,7 +63,7 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
 
     private static void aiFirstTurn() {
         while (true) {
-            aiTurn();
+            aiTurnLevelUP();
             printField();
             if (checkGame(dotAi)) break;
 
@@ -79,7 +79,7 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
             printField();
             if (checkGame(dotHuman)) break;
 
-            aiTurn();
+            aiTurnLevelUP();
             printField();
             if (checkGame(dotAi)) break;
         }
@@ -112,6 +112,64 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
         field[y][x] = dotAi;
     }
 
+    private static void aiTurnLevelUP() {
+        int x;
+        int y;
+
+        for (int i = 0; i < fieldSizeY; i++) {
+            for (int j = 0; j < fieldSizeX; j++) {
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((j + k < fieldSizeX && j + k >= 0) && (field[i][j + k] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman >= 0) {
+                            x = j + k + 1;
+                            y = i;
+                            if (!isCellEmpty(y, x)) {
+                                field[y][x] = dotAi;
+                        }
+
+                        }
+//                        if (counterHuman  3){
+//                            do {
+//                                x = random.nextInt(fieldSizeX);
+//                                y = random.nextInt(fieldSizeY);
+//                            } while (!isCellEmpty(y, x));
+//                            field[y][x] = dotAi;
+//                        }
+                    }
+                }
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((i - k < fieldSizeX && i - k >= 0) && (field[i - k][j] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman >= 0) {
+                            do {
+                                x = j ;
+                                y = i - k;
+                            } while (!isCellEmpty(y, x));
+                            field[y][x] = dotAi;
+                        }
+                    }
+                }
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((j + k < fieldSizeX && j + k >= 0) && (i + k < fieldSizeX && i + k >= 0) && (field[i + k][j + k] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman == 3) ;
+                    }
+                }
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((j + k < fieldSizeX && j + k >= 0) && (i - k < fieldSizeX && i - k >= 0) && (field[i - k][j + k] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman == 3) ;                    }
+
+                }
+            }
+        }
+    }
+
     private static void humanTurn() {
         int x;
         int y;
@@ -131,67 +189,57 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
         4 диагонали длинной по 4
         */
 
-
-
-        for (int i = 0,a = 0, b = 0; i < fieldSizeY; i++) {// горизонтали
+        for (int i = 0; i < fieldSizeY; i++) {
             for (int j = 0; j < fieldSizeX; j++) {
-                if (field[i][j] == DOT_X) a++;
-                if (field[i][j] == DOT_0) b++;
-                if (a == symbolsForVictory || b == symbolsForVictory) return true;
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((j + k < fieldSizeX && j + k >= 0) && (field[i][j + k] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman == 4) return true;
+                    }
+                    if ((j + k < fieldSizeX && j + k >= 0) && (field[i][j + k] == DOT_0)) {
+                        counterAI++;
+                        if (counterAI == 4) return true;
+                    }
+                }
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((i - k < fieldSizeX && i - k >= 0) && (field[i - k][j] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman == 4) return true;
+                    }
+                    if ((j - k < fieldSizeX && j - k >= 0) && (field[i][j - k] == DOT_0)) {
+                        counterAI++;
+                        if (counterAI == 4) return true;
+                    }
+                }
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((j + k < fieldSizeX && j + k >= 0) && (i + k < fieldSizeX && i + k >= 0) && (field[i + k][j + k] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman == 4) return true;
+                    }
+                    if ((j + k < fieldSizeX && j + k >= 0) && (i + k < fieldSizeX && i + k >= 0) && (field[i + k][j + k] == DOT_0)) {
+                        counterAI++;
+                        if (counterAI == 4) return true;
+                    }
+                }
+
+                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
+                    if ((j + k < fieldSizeX && j + k >= 0) && (i - k < fieldSizeX && i - k >= 0) && (field[i - k][j + k] == DOT_X)) {
+                        counterHuman++;
+                        if (counterHuman == 4) return true;
+                    }
+                    if ((j + k < fieldSizeX && j + k >= 0) && (i - k < fieldSizeX && i - k >= 0) && (field[i - k][j + k] == DOT_0)) {
+                        counterAI++;
+                        if (counterAI == 4) return true;
+                    }
+                }
             }
-        }
-
-        for (int i = 0,a = 0, b = 0; i < fieldSizeY; i++) {// вертикали
-            for (int j = 0; j < fieldSizeX; j++) {
-                if (field[j][i] == DOT_X) a++;
-                if (field[j][i] == DOT_0) b++;
-                if (a == symbolsForVictory || b == symbolsForVictory) return true;
-            }
-        }
-
-
-        for (int i = 0,a = 0, b = 0; i < fieldSizeY; i++) {// первая основная диагональ
-            if (field[i][i] == DOT_X) a++;
-            if (field[i][i] == DOT_0) b++;
-            if (a == symbolsForVictory || b == symbolsForVictory) return true;
-
-        }
-
-        for (int i = 0, j = 4, a = 0, b = 0; i < fieldSizeY && j >= 0; i++, j--) {// вторая основная диагональ
-            if (field[i][j] == DOT_X) a++;
-            if (field[i][j] == DOT_0) b++;
-            if (a == symbolsForVictory || b == symbolsForVictory) return true;
-
-        }
-
-        for (int i = 0, j = 1, a = 0, b = 0; i < 4 && j < 5 ; i++, j++) {// второстепенная диагональ
-            if (field[i][j] == DOT_X) a++;
-            if (field[i][j] == DOT_0) b++;
-            if (a == symbolsForVictory || b == symbolsForVictory) return true;
-
-        }
-
-        for (int i = 1, j = 0, a = 0, b = 0; i < 5 && j < 4 ; i++, j++) {// второстепенная диагональ
-            if (field[i][j] == DOT_X) a++;
-            if (field[i][j] == DOT_0) b++;
-            if (a == symbolsForVictory || b == symbolsForVictory) return true;
-
-        }
-
-        for (int i = 0, j = 3,a = 0, b = 0; i < 4 && j >= 0  ; i++, j--) {// второстепенная диагональ
-            if (field[i][j] == DOT_X) a++;
-            if (field[i][j] == DOT_0) b++;
-            if (a == symbolsForVictory || b == symbolsForVictory) return true;
-
-        }
-
-        for (int i = 1, j = 4, a = 0, b = 0; i < 5 && j > 0  ; i++, j--) {// второстепенная диагональ
-            if (field[i][j] == DOT_X) a++;
-            if (field[i][j] == DOT_0) b++;
-            if (a == symbolsForVictory || b == symbolsForVictory) return true;
-
         }
         return false;
+
+
 
 
     }
