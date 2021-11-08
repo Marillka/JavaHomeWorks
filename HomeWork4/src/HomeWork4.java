@@ -1,4 +1,3 @@
-import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 public class HomeWork4 {// Крестики нолики 5x5 4 подряд
@@ -63,7 +62,7 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
 
     private static void aiFirstTurn() {
         while (true) {
-            aiTurnLevelUP();
+            aiTurn();
             printField();
             if (checkGame(dotAi)) break;
 
@@ -79,7 +78,7 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
             printField();
             if (checkGame(dotHuman)) break;
 
-            aiTurnLevelUP();
+            aiTurn();
             printField();
             if (checkGame(dotAi)) break;
         }
@@ -112,63 +111,6 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
         field[y][x] = dotAi;
     }
 
-    private static void aiTurnLevelUP() {
-        int x;
-        int y;
-
-        for (int i = 0; i < fieldSizeY; i++) {
-            for (int j = 0; j < fieldSizeX; j++) {
-
-                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
-                    if ((j + k < fieldSizeX && j + k >= 0) && (field[i][j + k] == DOT_X)) {
-                        counterHuman++;
-                        if (counterHuman >= 0) {
-                            x = j + k + 1;
-                            y = i;
-                            if (!isCellEmpty(y, x)) {
-                                field[y][x] = dotAi;
-                        }
-
-                        }
-//                        if (counterHuman  3){
-//                            do {
-//                                x = random.nextInt(fieldSizeX);
-//                                y = random.nextInt(fieldSizeY);
-//                            } while (!isCellEmpty(y, x));
-//                            field[y][x] = dotAi;
-//                        }
-                    }
-                }
-
-                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
-                    if ((i - k < fieldSizeX && i - k >= 0) && (field[i - k][j] == DOT_X)) {
-                        counterHuman++;
-                        if (counterHuman >= 0) {
-                            do {
-                                x = j ;
-                                y = i - k;
-                            } while (!isCellEmpty(y, x));
-                            field[y][x] = dotAi;
-                        }
-                    }
-                }
-
-                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
-                    if ((j + k < fieldSizeX && j + k >= 0) && (i + k < fieldSizeX && i + k >= 0) && (field[i + k][j + k] == DOT_X)) {
-                        counterHuman++;
-                        if (counterHuman == 3) ;
-                    }
-                }
-
-                for (int k = 0, counterHuman = 0, counterAI = 0; k <= symbolsForVictory; k++) {
-                    if ((j + k < fieldSizeX && j + k >= 0) && (i - k < fieldSizeX && i - k >= 0) && (field[i - k][j + k] == DOT_X)) {
-                        counterHuman++;
-                        if (counterHuman == 3) ;                    }
-
-                }
-            }
-        }
-    }
 
     private static void humanTurn() {
         int x;
@@ -183,11 +125,6 @@ public class HomeWork4 {// Крестики нолики 5x5 4 подряд
     }
 
     private static boolean checkWin(char dot) {
-        /* для поля 5x5 с 4 символами подряд будет:
-        5 горизонтальных и 5 вертикальных линий,
-        2 основные диагонали длинной по 5,
-        4 диагонали длинной по 4
-        */
 
         for (int i = 0; i < fieldSizeY; i++) {
             for (int j = 0; j < fieldSizeX; j++) {
